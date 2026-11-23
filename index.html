@@ -144,6 +144,19 @@ section{padding:96px 0}
 .hl .art .ico{width:30px;height:30px}
 .hl h3{font-size:1.3rem;margin-bottom:6px}
 .hl p{color:var(--muted);font-size:.92rem}
+.hl-img{display:block;width:calc(100% + 52px);max-width:none;margin:-26px -26px 18px;aspect-ratio:4/3;max-height:240px;object-fit:cover;transition:transform .5s var(--ease)}
+.hl{padding-top:26px}
+.hl:hover .hl-img{transform:scale(1.04)}
+.item .pic.photo{flex:0 0 84px;height:84px;overflow:hidden;padding:0}
+.item .pic.photo img{width:100%;height:100%;object-fit:cover}
+.star.ig{background:var(--washi)}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:210px;gap:12px}
+.gallery figure{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--sumi-2)}
+.gallery img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.gallery figure:hover img{transform:scale(1.05)}
+.gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:24px 14px 10px;font-size:.85rem;font-weight:500;background:linear-gradient(transparent,#000b)}
+.g-tall{grid-row:span 2}
+.g-wide{grid-column:span 2}
 .hl .tag{display:inline-block;margin-top:14px;font-size:.74rem;font-weight:700;letter-spacing:.06em;color:var(--sumi);background:var(--gold);padding:3px 10px;border-radius:999px}
 
 /* menu */
@@ -314,6 +327,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;color:var(--muted);
   .lanterns{height:300px;order:-1}
   .l1{--w:120px;left:18%}.l2{--w:90px;left:60%;--cord:80px}
   .hl-grid,.ev-grid{grid-template-columns:1fr}
+  .gallery{grid-template-columns:1fr 1fr;grid-auto-rows:160px}
   .hero{padding:30px 0 80px}
   section{padding:72px 0}
   .jumpbar{display:flex;position:fixed;left:10px;right:10px;bottom:10px;z-index:45;background:#211812f2;backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:18px;padding:6px;justify-content:space-around;box-shadow:0 10px 30px #0009}
@@ -429,9 +443,9 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;color:var(--muted);
       <p>The three dishes named as menu highlights on Monzen's public restaurant listing. Tap one to find it on the menu.</p>
     </div>
     <div class="hl-grid">
-      <button class="hl reveal" type="button" data-go="grill"><span class="num" aria-hidden="true">01</span><span class="art"><svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg></span><h3>MB4/5 Wagyu Bone-in Ribeye</h3><p>Australian wagyu on the bone, off the grill and sliced to share.</p></button>
-      <button class="hl reveal" type="button" data-go="raw"><span class="num" aria-hidden="true">02</span><span class="art"><svg class="ico" aria-hidden="true"><use href="#i-fish"/></svg></span><h3>Hamachi Carpaccio</h3><p>Thin-sliced yellowtail, bright and fresh. The way to start the night.</p></button>
-      <button class="hl reveal" type="button" data-go="rice"><span class="num" aria-hidden="true">03</span><span class="art"><svg class="ico" aria-hidden="true"><use href="#i-bowl"/></svg></span><h3>Tonkatsu</h3><p>Golden, crunchy pork cutlet. The most-recommended dish by diners.</p><span class="tag">Diners' top pick</span></button>
+      <button class="hl reveal" type="button" data-go="grill"><span class="num" aria-hidden="true">01</span><img class="hl-img" src="assets/food/ribeye.webp" alt="Wagyu bone-in ribeye sliced on a wooden board with grilled vegetables"><h3>MB4/5 Wagyu Bone-in Ribeye</h3><p>Australian wagyu on the bone, off the grill and sliced to share.</p></button>
+      <button class="hl reveal" type="button" data-go="raw"><span class="num" aria-hidden="true">02</span><img class="hl-img" src="assets/food/carpaccio.webp" alt="Carpaccio slices topped with ikura on a blue plate"><h3>Hamachi Carpaccio</h3><p>Thin-sliced fish, bright and fresh. The way to start the night.</p></button>
+      <button class="hl reveal" type="button" data-go="rice"><span class="num" aria-hidden="true">03</span><img class="hl-img" src="assets/food/spread.webp" alt="A table at Monzen set with tonkatsu, sashimi, skewers and sake"><h3>Tonkatsu</h3><p>Golden, crunchy pork cutlet. The most-recommended dish by diners.</p><span class="tag">Diners' top pick</span></button>
     </div>
   </div>
 </section>
@@ -444,7 +458,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;color:var(--muted);
     </div>
     <div class="tabs" role="tablist" aria-label="Menu categories" id="tabs"></div>
     <div class="items" id="items" role="tabpanel" aria-labelledby="tabs"></div>
-    <div class="menu-note"><span class="demo-note">Sample menu &amp; prices for this demo</span><span>Dishes marked <span class="star">Highlight</span> are from the restaurant's public listing. The rest are placeholders to fill in with the real menu.</span></div>
+    <div class="menu-note"><span class="demo-note">Sample menu &amp; prices for this demo</span><span><span class="star">Highlight</span> = from the restaurant's Chope listing. <span class="star ig">On Instagram</span> = dish from their Instagram. Prices are samples, except Volcano Ramen ($21) and the Party Sharing Platter ($68) from their posts. Unmarked dishes are placeholders.</span></div>
   </div>
 </section>
 
@@ -483,6 +497,24 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;color:var(--muted);
       </div>
       <p class="body"><span class="demo-note">Sample story: to write with the owners</span></p>
     </div>
+  </div>
+</section>
+
+<section id="gallery" aria-labelledby="ga-h" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="kicker"><i>写真</i>From our kitchen</div><h2 id="ga-h">Fresh off the pass.</h2></div>
+      <p>Seasonal fish from Japan, oysters, skewers and more. Follow along for what's new this week.</p>
+    </div>
+    <div class="gallery">
+      <figure class="reveal g-tall"><img src="assets/food/fish.webp" alt="A whole fresh yellowtail on the prep counter" loading="lazy"><figcaption>Seasonal fish from Japan</figcaption></figure>
+      <figure class="reveal"><img src="assets/food/oysters.webp" alt="Fresh oysters with ponzu and chilli" loading="lazy"><figcaption>Fresh oysters</figcaption></figure>
+      <figure class="reveal"><img src="assets/food/skewers.webp" alt="Grilled skewers on a slate" loading="lazy"><figcaption>Kushiyaki</figcaption></figure>
+      <figure class="reveal"><img src="assets/food/dinner.webp" alt="Several dishes and rice bowls on a table" loading="lazy"><figcaption>Dinner for the table</figcaption></figure>
+      <figure class="reveal"><img src="assets/food/umeshu.webp" alt="Glass jars of plum liqueur" loading="lazy"><figcaption>House umeshu</figcaption></figure>
+      <figure class="reveal g-wide"><img src="assets/food/storefront.webp" alt="Monzen's shopfront and outdoor seats at Dairy Farm Mall" loading="lazy"><figcaption>Outdoor seats at Dairy Farm Mall</figcaption></figure>
+    </div>
+    <p class="menu-note"><a class="btn btn-line" href="https://www.instagram.com/monzen_izakaya/" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-insta"/></svg>More on @monzen_izakaya</a><span class="help">Photos from Monzen's Instagram.</span></p>
   </div>
 </section>
 
@@ -571,7 +603,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;color:var(--muted);
       <div class="info-list reveal">
         <div class="info-row"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><div><h3>Address</h3><p>4 Dairy Farm Lane, #01-04 Dairy Farm Mall<br>Singapore 677622</p></div></div>
         <div class="info-row"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg><div><h3>Opening hours</h3><div class="hours" id="hours"></div></div></div>
-        <div class="info-row"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><div><h3>Contact</h3><p>+65 0000 0000 <span class="demo-note" style="margin-left:6px">placeholder</span></p></div></div>
+        <div class="info-row"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><div><h3>Contact</h3><p>WhatsApp / call <b style="color:var(--washi)">+65 9052 0600</b></p><p class="help">Number from their Instagram posts.</p></div></div>
         <div class="info-row"><svg class="ico" aria-hidden="true"><use href="#i-insta"/></svg><div><h3>Follow us</h3><div class="socials"><a href="https://www.instagram.com/monzen_izakaya/" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-insta"/></svg>@monzen_izakaya</a><a href="https://www.facebook.com/monzenizakaya/" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-fb"/></svg>Facebook</a></div></div></div>
         <div class="ctas" style="margin-top:0"><a class="btn btn-line" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Monzen+Izakaya+and+Grill+4+Dairy+Farm+Lane+Singapore+677622"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Get directions</a><a class="btn btn-red" href="#reserve">Book a table</a></div>
         <p class="help">Address and hours from Monzen's public Chope listing. Please confirm before launch.</p>
@@ -666,33 +698,34 @@ const CATS=[
  {id:'rice',name:'Donburi & mains',ico:'i-bowl'},
  {id:'small',name:'Small plates',ico:'i-plate'},
  {id:'drinks',name:'Drinks',ico:'i-sake'}];
+// [name, japanese, description, price, source, photo]; source 1 = Chope highlight, 'ig' = seen on their Instagram
 const MENU={
  grill:[
-  ['MB4/5 Wagyu Bone-in Ribeye','和牛','Australian wagyu on the bone, sliced to share',88,1],
-  ['Negima','ねぎま','Chicken thigh and leek skewers, salt or tare',8],
+  ['MB4/5 Wagyu Bone-in Ribeye','和牛','Australian wagyu on the bone with grilled vegetables, sliced to share',88,1,'ribeye'],
+  ['Kushiyaki platter','串焼き','Assorted skewers straight off the grill',18,'ig','skewers'],
   ['Buta bara','豚バラ','Pork belly skewers with a crisp, smoky edge',8],
   ['Gyutan','牛タン','Thin-sliced beef tongue, lemon and pepper',16],
   ['Salmon harasu','ハラス','Fatty salmon belly, grilled until it glistens',14],
   ['Shishito','ししとう','Blistered green peppers, sea salt',6]],
  raw:[
-  ['Hamachi Carpaccio','カルパッチョ','Thin yellowtail with citrus and olive oil',22,1],
-  ['Salmon sashimi','刺身','Five thick slices, wasabi and soy',18],
-  ['Aburi salmon roll','炙り','Torched salmon on a sushi roll, mentai mayo',19],
-  ['Sashimi moriawase','盛り合わせ','Chef\'s pick of the day\'s fish, for two',48]],
+  ['Hamachi Carpaccio','カルパッチョ','Thin-sliced fish with ikura and a bright dressing',22,1,'carpaccio'],
+  ['Fresh oysters','牡蠣','Shucked to order, with ponzu and chilli',24,'ig','oysters'],
+  ['Party Sharing Platter','盛り合わせ','Serves 3–4: 2 hosomaki, 4 sushi, aburi mentaiko salmon roll, special maki',68,'ig'],
+  ['Salmon sashimi','刺身','Five thick slices, wasabi and soy',18]],
  rice:[
   ['Tonkatsu','とんかつ','Crunchy panko pork cutlet, cabbage, rice and miso soup',22,1],
-  ['Wagyu don','和牛丼','Seared wagyu slices over warm rice, onsen egg',28],
-  ['Bara chirashi don','ちらし','Cubed sashimi over sushi rice',24],
-  ['Saba shioyaki set','鯖','Salt-grilled mackerel with rice and sides',19]],
+  ['Gyukatsu','牛かつ','Rare-centre beef cutlet, shredded cabbage',28,'ig','gyukatsu'],
+  ['Volcano Ramen','ラーメン','Rich, creamy ramen. Pick your heat, level 1 to 5',21,'ig','ramen'],
+  ['Bara chirashi don','ちらし','Cubed sashimi over sushi rice',24]],
  small:[
+  ['Sashimi salad','サラダ','Greens, fresh sashimi and tobiko with sesame dressing',16,'ig','salad'],
   ['Edamame','枝豆','Warm, salted soybeans',6],
   ['Chicken karaage','唐揚げ','Juicy fried chicken, lemon and Japanese mayo',12],
-  ['Agedashi tofu','揚げ出し','Silky tofu in light dashi broth',10],
-  ['Kaki fry','カキフライ','Panko-fried oysters, tartare sauce',14]],
+  ['Agedashi tofu','揚げ出し','Silky tofu in light dashi broth',10]],
  drinks:[
+  ['House umeshu','梅酒','Plum liqueur steeped in-house',12,'ig','umeshu'],
+  ['Sapporo Black on tap','黒ビール','Rich, smooth dark lager',14,'ig'],
   ['House sake','日本酒','Warm or cold, by the tokkuri',18],
-  ['Japanese highball','ハイボール','Whisky and soda, tall and fizzy',14],
-  ['Draft beer','生ビール','Ice-cold pint',12],
   ['Yuzu soda','柚子','Citrus fizz, no alcohol',7]]};
 const tray=new Map();
 let curCat='grill';
@@ -702,9 +735,11 @@ function renderTabs(){
 function renderItems(){
   const c=CATS.find(c=>c.id===curCat);
   $('#items').setAttribute('aria-labelledby','tab-'+c.id);
-  $('#items').innerHTML=MENU[curCat].map(([n,jp,d,p,hl],i)=>{
+  $('#items').innerHTML=MENU[curCat].map(([n,jp,d,p,src,img],i)=>{
     const q=tray.get(n)||0;
-    return `<article class="item" style="animation-delay:${i*40}ms"><div class="pic" aria-hidden="true"><svg class="ico"><use href="#${c.ico}"/></svg></div><div class="info"><h3>${n}<span class="jp" lang="ja">${jp}</span></h3><p>${d}</p><div class="row"><span class="price">$${p}</span>${hl?'<span class="star">Highlight</span>':''}${stepper(n,q)}</div></div></article>`;
+    const pic=img?`<div class="pic photo"><img src="assets/food/${img}.webp" alt="${n}" loading="lazy"></div>`:`<div class="pic" aria-hidden="true"><svg class="ico"><use href="#${c.ico}"/></svg></div>`;
+    const tag=src===1?'<span class="star">Highlight</span>':src==='ig'?'<span class="star ig">On Instagram</span>':'';
+    return `<article class="item" style="animation-delay:${i*40}ms">${pic}<div class="info"><h3>${n}<span class="jp" lang="ja">${jp}</span></h3><p>${d}</p><div class="row"><span class="price">$${p}</span>${tag}${stepper(n,q)}</div></div></article>`;
   }).join('');
 }
 function pick(cat,focus){curCat=cat;renderTabs();renderItems();if(focus)$('#tab-'+cat).focus();sfx.tick(CATS.findIndex(c=>c.id===cat))}
