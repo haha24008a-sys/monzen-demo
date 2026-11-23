@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monzen Izakaya &amp; Grill · Dairy Farm Mall (concept demo)</title>
+<meta name="robots" content="noindex, nofollow"><!-- pitch demo: keep it out of search results -->
+<meta name="description" content="Concept demo website for Monzen Izakaya and Grill, Dairy Farm Mall, Singapore.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* warm izakaya night: sumi charcoal, lantern red, ember orange, washi cream, hinoki wood, gold */
+  --sumi:#17100c; --sumi-2:#211812; --sumi-3:#2c2018; --line:#43322580;
+  --washi:#f6ead7; --muted:#cdb69b; --red:#c8322a; --red-d:#8f1f19; --ember:#ef8a3c;
+  --gold:#e3ac52; --wood:#9a6a40; --indigo:#1f2b44;
+  --radius:18px; --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{font-family:'Zen Kaku Gothic New',system-ui,sans-serif;background:var(--sumi);color:var(--washi);line-height:1.6;overflow-x:hidden;font-size:16px}
+body.intro-on{overflow:hidden}
+h1,h2,h3,.serif{font-family:'Shippori Mincho B1',Georgia,serif;line-height:1.15;font-weight:800}
+a{color:inherit}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+.ico{width:20px;height:20px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.skip{position:absolute;left:-999px;top:8px;background:var(--gold);color:var(--sumi);padding:8px 14px;border-radius:8px;z-index:200}
+.skip:focus{left:8px}
+
+/* ---------- intro: noren curtain parts ---------- */
+#intro{position:fixed;inset:0;z-index:100;background:radial-gradient(900px 600px at 50% 40%,#3a2418 0,#120c09 70%);display:grid;place-items:start center;overflow:hidden;transition:opacity .6s ease .2s}
+#intro.done{opacity:0;pointer-events:none}
+#intro .glow{position:absolute;left:50%;top:58%;width:70vmin;height:70vmin;margin:-35vmin;border-radius:50%;background:radial-gradient(circle,#ffb35c55 0,transparent 65%);opacity:0;transition:opacity 1s}
+#intro.open .glow{opacity:1}
+.rod{position:absolute;top:8vh;left:50%;transform:translateX(-50%);width:min(760px,92vw);height:16px;border-radius:8px;background:linear-gradient(#b98656,#6e4524);box-shadow:0 6px 14px #0008;z-index:3}
+.rod::before,.rod::after{content:"";position:absolute;top:-4px;width:24px;height:24px;border-radius:50%;background:#5a371c}
+.rod::before{left:-10px}.rod::after{right:-10px}
+.noren{position:absolute;top:calc(8vh + 8px);left:50%;transform:translateX(-50%);width:min(720px,88vw);height:min(62vh,560px);display:flex;gap:6px;z-index:2}
+.panel{flex:1;position:relative;overflow:hidden;background:linear-gradient(180deg,#b42a23 0,#a32520 70%,#8c1e1a 100%);transform-origin:top center;
+  border-radius:0 0 4px 4px;box-shadow:inset 0 -18px 30px #0003,0 18px 30px #0006;animation:hang 1.1s var(--ease) both}
+.panel::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,#fff0 0 3px,#ffffff08 3px 4px)} /* woven cloth texture */
+.panel:nth-child(1){animation-delay:.05s}.panel:nth-child(2){animation-delay:.15s}.panel:nth-child(3){animation-delay:.25s}
+@keyframes hang{0%{transform:translateY(-105%)}70%{transform:translateY(2%)}100%{transform:none}}
+.noren-art{position:absolute;top:0;height:100%;width:min(720px,88vw);display:grid;place-items:center;align-content:center;gap:10px;pointer-events:none}
+.panel:nth-child(1) .noren-art{left:0}
+.panel:nth-child(2) .noren-art{left:calc(-100% - 6px)}
+.panel:nth-child(3) .noren-art{left:calc(-200% - 12px)}
+.noren-art .kanji{font-family:'Shippori Mincho B1',serif;font-weight:800;font-size:min(30vmin,230px);color:var(--washi);line-height:1;letter-spacing:.05em}
+.noren-art .kanji span{display:inline-block;opacity:0;transform:scale(1.3);filter:blur(6px);animation:ink .7s var(--ease) forwards}
+.noren-art .kanji span:nth-child(2){animation-delay:.25s}
+.noren-art .word{font-family:'Shippori Mincho B1',serif;font-size:min(6vmin,38px);letter-spacing:.5em;padding-left:.5em;color:var(--washi);opacity:0;animation:fadein .6s .9s forwards}
+.noren-art .kanji span{animation-delay:.75s}.noren-art .kanji span+span{animation-delay:1s}
+@keyframes ink{to{opacity:1;transform:none;filter:none}}
+@keyframes fadein{to{opacity:.9}}
+/* parting: outer panels swing aside like a guest walking through */
+#intro.open .panel:nth-child(1){animation:partL 1s var(--ease) forwards}
+#intro.open .panel:nth-child(2){animation:partM 1s var(--ease) forwards}
+#intro.open .panel:nth-child(3){animation:partR 1s var(--ease) forwards}
+@keyframes partL{to{transform:translateX(-62%) skewX(14deg) rotate(9deg)}}
+@keyframes partR{to{transform:translateX(62%) skewX(-14deg) rotate(-9deg)}}
+@keyframes partM{to{transform:translateY(-8%) scaleY(.35);opacity:0}}
+.intro-tag{position:absolute;bottom:9vh;left:0;right:0;text-align:center;color:var(--muted);letter-spacing:.32em;font-size:.82rem;text-transform:uppercase;opacity:0;animation:fadein .6s 1.4s forwards}
+
+/* ---------- status strip + nav ---------- */
+.strip{background:#0e0907;color:var(--muted);font-size:.86rem;text-align:center;padding:8px 16px}
+.strip b{color:var(--washi);font-weight:700}
+.strip .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#7c6a5c;margin-right:8px;vertical-align:1px}
+.strip.open .dot{background:#6fd685;animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 #6fd68588}70%{box-shadow:0 0 0 8px #6fd68500}100%{box-shadow:none}}
+#nav{position:sticky;top:0;z-index:40;background:#17100cdd;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:20px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.hanko{width:40px;height:40px;border-radius:8px;background:var(--red);display:grid;place-items:center;font-family:'Shippori Mincho B1',serif;font-weight:800;font-size:1.45rem;color:var(--washi);box-shadow:inset 0 0 0 2px #f6ead733;transform:rotate(-4deg)}
+.logo-txt b{display:block;font-family:'Shippori Mincho B1',serif;font-size:1.2rem;letter-spacing:.18em;line-height:1}
+.logo-txt small{font-size:.66rem;letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
+.nav-links{display:flex;gap:4px;margin-left:auto}
+.nav-links a{text-decoration:none;padding:8px 12px;border-radius:999px;font-weight:500;font-size:.95rem;color:var(--muted);transition:color .2s,background .2s}
+.nav-links a:hover,.nav-links a.on{color:var(--washi);background:#ffffff0d}
+.nav-right{display:flex;gap:8px;align-items:center}
+.icon-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);position:relative;transition:background .2s,border-color .2s}
+.icon-btn:hover{background:#ffffff0d;border-color:var(--wood)}
+.count{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:999px;background:var(--ember);color:var(--sumi);font-size:.72rem;font-weight:700;display:grid;place-items:center;padding:0 5px}
+.count.bump{animation:bump .4s}
+@keyframes bump{50%{transform:scale(1.45)}}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:999px;font-weight:700;text-decoration:none;transition:transform .2s var(--ease),box-shadow .2s,background .2s;min-height:48px;justify-content:center}
+.btn:active{transform:scale(.97)}
+.btn-red{background:var(--red);color:#fff;box-shadow:0 6px 0 var(--red-d)}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 8px 0 var(--red-d)}
+.btn-line{border:1.5px solid #f6ead766}
+.btn-line:hover{background:#f6ead712;border-color:var(--washi)}
+.nav-cta{padding:10px 18px;min-height:44px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;padding:70px 0 110px;background:radial-gradient(800px 500px at 78% 30%,#5a2a1655 0,transparent 70%),radial-gradient(700px 400px at 10% 110%,#ef8a3c22 0,transparent 70%)}
+#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;font-size:.8rem;font-weight:700}
+.eyebrow::before{content:"";width:28px;height:1.5px;background:var(--gold)}
+.hero h1{font-size:clamp(2.6rem,6.6vw,5.4rem);margin:18px 0 18px;letter-spacing:-.01em}
+.hero h1 em{font-style:normal;color:var(--ember)}
+.lead{font-size:1.12rem;color:var(--muted);max-width:32em}
+.ctas{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
+.facts{display:flex;gap:26px;margin-top:40px;flex-wrap:wrap}
+.facts div{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:.9rem}
+.facts .ico{color:var(--gold)}
+/* lanterns */
+.lanterns{position:relative;height:460px}
+.lantern{position:absolute;top:0;transform-origin:top center;animation:sway 5s ease-in-out infinite}
+.lantern .cord{width:2px;height:var(--cord,60px);background:#6b4a2e;margin:0 auto}
+.chochin{position:relative;width:var(--w,150px);height:calc(var(--w,150px)*1.35);border-radius:46%/40%;
+  background:radial-gradient(ellipse at 50% 45%,#ffd89a 0,#f2902f 35%,#c8322a 70%,#8f1f19 100%);
+  box-shadow:0 0 60px 10px #ef8a3c55,0 0 140px 30px #c8322a33;display:grid;place-items:center;overflow:hidden;
+  opacity:.25;filter:saturate(.3);transition:opacity 1.2s, filter 1.2s}
+body.lit .chochin{opacity:1;filter:none}
+.chochin::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 13px,#5a120e44 13px 15px)}
+.chochin::after{content:"";position:absolute;left:0;right:0;top:-2px;height:14px;background:#2b1a10;box-shadow:0 calc(var(--w,150px)*1.35 - 12px) 0 #2b1a10}
+.chochin span{position:relative;z-index:1;font-family:'Shippori Mincho B1',serif;font-weight:800;color:#2a0b07;font-size:calc(var(--w,150px)*.36);writing-mode:vertical-rl;letter-spacing:.05em}
+.l1{left:12%;--w:170px;--cord:40px}
+.l2{left:58%;--w:120px;--cord:120px;animation-delay:-2s;animation-duration:6s}
+@keyframes sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+.smoke{position:absolute;bottom:-20px;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,#f6ead722 0,transparent 70%);animation:smoke 7s linear infinite}
+@keyframes smoke{0%{transform:translateY(0) scale(.6);opacity:0}20%{opacity:.8}100%{transform:translateY(-380px) scale(2.4);opacity:0}}
+
+/* ---------- sections ---------- */
+section{padding:96px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:40px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(2rem,4.6vw,3.3rem)}
+.sec-head p{color:var(--muted);max-width:30em}
+.kicker{display:flex;align-items:center;gap:10px;color:var(--gold);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:.78rem;margin-bottom:12px}
+.kicker i{font-style:normal;font-family:'Shippori Mincho B1',serif;font-size:1.05rem;letter-spacing:0;color:var(--ember)}
+.demo-note{display:inline-flex;gap:8px;align-items:center;font-size:.82rem;color:var(--muted);background:#ffffff08;border:1px dashed #cdb69b55;padding:6px 12px;border-radius:999px}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* highlights */
+.hl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.hl{position:relative;text-align:left;background:linear-gradient(160deg,var(--sumi-3),var(--sumi-2));border:1px solid var(--line);border-radius:var(--radius);padding:26px;overflow:hidden;transition:transform .3s var(--ease),border-color .3s}
+.hl:hover{transform:translateY(-5px);border-color:var(--wood)}
+.hl .num{position:absolute;right:16px;top:6px;font-family:'Shippori Mincho B1',serif;font-size:4.6rem;color:#ffffff0a;font-weight:800}
+.hl .art{width:58px;height:58px;border-radius:14px;display:grid;place-items:center;background:#c8322a22;color:var(--ember);margin-bottom:18px}
+.hl .art .ico{width:30px;height:30px}
+.hl h3{font-size:1.3rem;margin-bottom:6px}
+.hl p{color:var(--muted);font-size:.92rem}
+.hl .tag{display:inline-block;margin-top:14px;font-size:.74rem;font-weight:700;letter-spacing:.06em;color:var(--sumi);background:var(--gold);padding:3px 10px;border-radius:999px}
+
+/* menu */
+#menu{background:linear-gradient(180deg,var(--sumi-2),var(--sumi));border-block:1px solid var(--line)}
+.tabs{display:flex;gap:8px;margin-bottom:30px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.tab{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;border:1.5px solid var(--line);font-weight:700;color:var(--muted);transition:all .2s;min-height:44px}
+.tab:hover{color:var(--washi);border-color:var(--wood)}
+.tab[aria-selected="true"]{background:var(--washi);border-color:var(--washi);color:var(--sumi)}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.item{display:flex;gap:16px;align-items:center;background:var(--sumi-2);border:1px solid var(--line);border-radius:var(--radius);padding:16px;animation:up .45s var(--ease) both}
+@keyframes up{from{opacity:0;transform:translateY(14px)}}
+.item .pic{flex:0 0 64px;height:64px;border-radius:14px;display:grid;place-items:center;background:radial-gradient(circle at 30% 25%,#3d2a1d,#22170f);color:var(--ember);box-shadow:inset 0 0 0 1px #ffffff10}
+.item .pic .ico{width:30px;height:30px}
+.item .info{flex:1;min-width:0}
+.item h3{font-size:1.06rem;font-weight:700}
+.item h3 .jp{color:var(--muted);font-weight:500;font-size:.85rem;margin-left:6px}
+.item p{color:var(--muted);font-size:.86rem;margin:2px 0 6px}
+.item .row{display:flex;align-items:center;gap:10px}
+.price{font-weight:700;font-variant-numeric:tabular-nums}
+.star{font-size:.7rem;font-weight:700;color:var(--sumi);background:var(--gold);padding:2px 8px;border-radius:999px}
+.add{margin-left:auto;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--wood);display:grid;place-items:center;transition:background .2s,transform .2s,border-color .2s}
+.add:hover{background:var(--red);border-color:var(--red)}
+.add[aria-pressed="true"]{background:var(--red);border-color:var(--red)}
+.menu-note{margin-top:24px;color:var(--muted);font-size:.85rem;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.fly{position:fixed;z-index:90;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle,#ffd89a,var(--ember));box-shadow:0 0 16px var(--ember);pointer-events:none;transition:transform .55s cubic-bezier(.5,-0.3,.7,.4),opacity .55s}
+
+/* grill story */
+.story{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.grill-card{position:relative;aspect-ratio:1/1;border-radius:28px;overflow:hidden;background:radial-gradient(circle at 50% 55%,#ef8a3c30,transparent 60%),linear-gradient(180deg,#24180f,#120b08);border:1px solid var(--line)}
+.grill-card svg{position:absolute;inset:0;width:100%;height:100%}
+.coal{fill:#2e1f16;animation:coal 2.8s ease-in-out infinite}
+@keyframes coal{50%{fill:#b4471b}}
+.bed-glow{animation:glow 2.8s ease-in-out infinite}
+@keyframes glow{50%{opacity:.55}}
+.grill-card .smoke{bottom:40%}
+.grill-card .sign{position:absolute;top:20px;left:22px;font-family:'Shippori Mincho B1',serif;writing-mode:vertical-rl;font-size:2.2rem;color:#f6ead733;font-weight:800}
+.steps{display:grid;gap:16px;margin-top:26px}
+.step{display:flex;gap:16px;align-items:flex-start;padding:16px;border-radius:14px;background:#ffffff06;border:1px solid var(--line)}
+.step b{flex:0 0 40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--red);font-family:'Shippori Mincho B1',serif}
+.step h3{font-size:1.05rem;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700}
+.step p{color:var(--muted);font-size:.9rem}
+.story p.body{color:var(--muted);margin-top:14px;max-width:34em}
+
+/* reserve */
+#reserve{background:radial-gradient(700px 400px at 90% 10%,#c8322a22,transparent 70%),var(--sumi-2);border-block:1px solid var(--line)}
+.res-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:40px;align-items:start}
+.res-side p{color:var(--muted)}
+.res-side ul{list-style:none;margin-top:22px;display:grid;gap:12px}
+.res-side li{display:flex;gap:12px;color:var(--muted);font-size:.95rem}
+.res-side li .ico{color:var(--gold);margin-top:3px}
+form.card{background:var(--sumi);border:1px solid var(--line);border-radius:22px;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:grid;gap:6px}
+.field.full{grid-column:1/-1}
+label,.lbl{font-weight:700;font-size:.9rem}
+label .req{color:var(--ember)}
+input,select,textarea{font:inherit;color:var(--washi);background:var(--sumi-2);border:1.5px solid #5a463680;border-radius:12px;padding:12px 14px;min-height:48px;width:100%;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+input[aria-invalid="true"],select[aria-invalid="true"]{border-color:#ff7a6b}
+input[type=date]{color-scheme:dark}
+textarea{min-height:84px;resize:vertical}
+.err{color:#ff9b8e;font-size:.82rem;min-height:1.1em}
+.help{color:var(--muted);font-size:.8rem}
+.pax{display:flex;align-items:center;gap:6px;background:var(--sumi-2);border:1.5px solid #5a463680;border-radius:12px;padding:4px;min-height:48px}
+.pax button{width:40px;height:40px;border-radius:10px;font-size:1.3rem;font-weight:700}
+.pax button:hover{background:#ffffff10}
+.pax output{flex:1;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.tray-in{grid-column:1/-1;background:#ef8a3c12;border:1px dashed #ef8a3c66;border-radius:12px;padding:12px 14px;font-size:.88rem;color:var(--muted)}
+.tray-in b{color:var(--washi)}
+.form-foot{grid-column:1/-1;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+
+/* modal ticket */
+.modal{position:fixed;inset:0;z-index:95;background:#0c0806cc;backdrop-filter:blur(6px);display:none;place-items:center;padding:20px}
+.modal.show{display:grid;animation:fade .25s}
+@keyframes fade{from{opacity:0}}
+.ticket{position:relative;width:min(440px,100%);background:#f3e4c9;color:#2a1a10;border-radius:16px;padding:30px 28px 24px;box-shadow:0 30px 60px #000a;animation:drop .45s var(--ease);max-height:90vh;overflow:auto}
+@keyframes drop{from{transform:translateY(-30px) rotate(-2deg);opacity:0}}
+.ticket::before{content:"";position:absolute;left:50%;top:-10px;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:#0c0806;box-shadow:inset 0 -2px 0 #0006}
+.ticket h3{font-size:1.5rem}
+.ticket .sub{color:#6b4f3a;font-size:.88rem;margin:4px 0 16px}
+.ticket dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:.95rem;border-block:1.5px dashed #8a6a5566;padding:14px 0}
+.ticket dt{color:#6b4f3a}
+.ticket dd{font-weight:700}
+.ticket pre{white-space:pre-wrap;font-family:inherit;font-size:.84rem;background:#e8d6b6;border-radius:10px;padding:12px;margin-top:14px;color:#3a2618}
+.stamp{position:absolute;right:20px;top:22px;width:74px;height:74px;border:3px solid var(--red);border-radius:50%;color:var(--red);display:grid;place-items:center;font-family:'Shippori Mincho B1',serif;font-weight:800;font-size:1.7rem;transform:rotate(-14deg) scale(2.2);opacity:0;animation:stamp .4s .35s var(--ease) forwards}
+@keyframes stamp{to{transform:rotate(-14deg) scale(1);opacity:.9}}
+.ticket .demo{margin-top:14px;font-size:.82rem;color:#7a2a20;background:#c8322a18;border-radius:10px;padding:10px 12px}
+.ticket .acts{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.ticket .btn-line{border-color:#2a1a1055;color:#2a1a10}
+
+/* tray drawer */
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:92;width:min(380px,100%);background:var(--sumi-2);border-left:1px solid var(--line);transform:translateX(100%);transition:transform .35s var(--ease);display:flex;flex-direction:column;padding:22px}
+.drawer.show{transform:none}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.drawer h3{font-size:1.4rem}
+.drawer .help{margin-bottom:16px}
+.tray-list{list-style:none;flex:1;overflow:auto;display:grid;gap:8px;align-content:start}
+.tray-list li{display:flex;align-items:center;gap:10px;background:var(--sumi);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.li-info{flex:1;min-width:0;display:grid}
+.li-info b{font-weight:700;font-size:.95rem}
+.li-info small{color:var(--muted);font-size:.8rem}
+.line-total{min-width:44px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.qty{margin-left:auto;display:flex;align-items:center;gap:2px;border:1.5px solid var(--wood);border-radius:999px;padding:2px}
+.qty button{width:38px;height:38px;border-radius:50%;font-size:1.25rem;font-weight:700;display:grid;place-items:center;transition:background .2s}
+.qty button:hover{background:var(--red)}
+.qty output{min-width:22px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.tray-list .qty{margin-left:0}
+.tray-total{border-top:1px solid var(--line);padding-top:14px;margin-top:10px;display:grid;gap:6px}
+.tray-total[hidden]{display:none}
+.tt-row{display:flex;justify-content:space-between;align-items:baseline;font-size:1.05rem}
+.tt-row b{font-family:'Shippori Mincho B1',serif;font-size:1.5rem;font-variant-numeric:tabular-nums}
+.tray-total small{color:var(--muted);font-size:.78rem}
+.tray-total .clear{justify-self:start;color:var(--muted);font-size:.85rem;text-decoration:underline;padding:8px 0;min-height:40px}
+.tray-total .clear:hover{color:var(--washi)}
+.empty{color:var(--muted);text-align:center;padding:40px 10px}
+.scrim{position:fixed;inset:0;z-index:91;background:#0008;opacity:0;pointer-events:none;transition:opacity .3s}
+.scrim.show{opacity:1;pointer-events:auto}
+
+/* events */
+.ev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.ev{background:var(--sumi-2);border:1px solid var(--line);border-radius:var(--radius);padding:26px;display:flex;flex-direction:column;gap:10px;transition:border-color .3s,transform .3s var(--ease)}
+.ev:hover{border-color:var(--wood);transform:translateY(-4px)}
+.ev .art{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#e3ac5222;color:var(--gold)}
+.ev .art .ico{width:26px;height:26px}
+.ev h3{font-size:1.25rem}
+.ev p{color:var(--muted);font-size:.92rem;flex:1}
+.ev button{align-self:flex-start;color:var(--gold);font-weight:700;display:flex;gap:6px;align-items:center;padding:8px 0;min-height:44px}
+.ev button:hover{color:var(--washi)}
+
+/* reviews */
+.rv-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.rv-card{background:linear-gradient(160deg,var(--sumi-3),var(--sumi-2));border:1px solid var(--line);border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:14px}
+.rv-card h3{font-size:1.4rem}
+.rv-card p{color:var(--muted)}
+.stars{display:flex;gap:4px;flex-direction:row-reverse;justify-content:flex-end}
+.stars input{position:absolute;opacity:0;width:1px;height:1px}
+.stars label{cursor:pointer;color:#5a4636;transition:color .15s,transform .15s;padding:2px}
+.stars label .ico{width:30px;height:30px;fill:currentColor;stroke:none}
+.stars input:checked~label,.stars label:hover,.stars label:hover~label{color:var(--gold)}
+.stars input:focus-visible+label{outline:3px solid var(--gold);border-radius:6px}
+
+/* visit */
+.visit{display:grid;grid-template-columns:1fr 1.1fr;gap:28px}
+.info-list{display:grid;gap:18px}
+.info-row{display:flex;gap:14px}
+.info-row .ico{color:var(--gold);margin-top:4px}
+.info-row h3{font-family:'Zen Kaku Gothic New',sans-serif;font-size:1rem;font-weight:700}
+.info-row p,.hours{color:var(--muted);font-size:.95rem}
+.hours{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;margin-top:4px}
+.hours .today{color:var(--washi);font-weight:700}
+.map{border-radius:22px;overflow:hidden;border:1px solid var(--line);min-height:340px;background:var(--sumi-2)}
+.map iframe{width:100%;height:100%;min-height:340px;border:0;filter:grayscale(.3) sepia(.25) brightness(.9)}
+footer{border-top:1px solid var(--line);padding:40px 0 110px;color:var(--muted);font-size:.88rem}
+.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+
+/* mobile quick-jump bar */
+.jumpbar{display:none}
+.toast{position:fixed;left:50%;bottom:90px;z-index:99;transform:translate(-50%,20px);background:var(--washi);color:var(--sumi);padding:12px 18px;border-radius:12px;font-weight:500;font-size:.92rem;box-shadow:0 12px 30px #0008;opacity:0;pointer-events:none;transition:all .3s var(--ease);max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:960px){
+  .nav-links{display:none}
+  .nav-right{margin-left:auto}
+  .hero-grid,.story,.res-grid,.visit,.rv-grid{grid-template-columns:1fr}
+  .lanterns{height:300px;order:-1}
+  .l1{--w:120px;left:18%}.l2{--w:90px;left:60%;--cord:80px}
+  .hl-grid,.ev-grid{grid-template-columns:1fr}
+  .hero{padding:30px 0 80px}
+  section{padding:72px 0}
+  .jumpbar{display:flex;position:fixed;left:10px;right:10px;bottom:10px;z-index:45;background:#211812f2;backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:18px;padding:6px;justify-content:space-around;box-shadow:0 10px 30px #0009}
+  .jumpbar a{flex:1;display:grid;justify-items:center;gap:2px;text-decoration:none;font-size:.7rem;color:var(--muted);padding:6px 2px;border-radius:12px;min-height:48px}
+  .jumpbar a.on{color:var(--washi);background:#ffffff0d}
+  .jumpbar a.res{color:#fff;background:var(--red)}
+}
+@media (max-width:560px){
+  .nav-cta{display:none}
+  form.card{grid-template-columns:1fr;padding:20px}
+  .items{grid-template-columns:1fr}
+  .facts{gap:14px;flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body class="intro-on">
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- icon sprite (stroke icons, one family) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-skewer" viewBox="0 0 24 24"><path d="M3 21 21 3"/><rect x="6.5" y="11.5" width="5" height="5" rx="1.5" transform="rotate(-45 9 14)"/><rect x="10.5" y="7.5" width="5" height="5" rx="1.5" transform="rotate(-45 13 10)"/><rect x="14.5" y="3.5" width="5" height="5" rx="1.5" transform="rotate(-45 17 6)"/></symbol>
+  <symbol id="i-fish" viewBox="0 0 24 24"><path d="M2 12c3-5 9-6 14-3l5-3v12l-5-3c-5 3-11 2-14-3z"/><circle cx="7" cy="11" r=".6"/></symbol>
+  <symbol id="i-bowl" viewBox="0 0 24 24"><path d="M3 12h18a9 9 0 0 1-18 0zM8 21h8"/><path d="M14 3 9 10M19 4l-6 6"/></symbol>
+  <symbol id="i-plate" viewBox="0 0 24 24"><ellipse cx="12" cy="15" rx="10" ry="5"/><circle cx="9" cy="13" r="1.6"/><circle cx="12.5" cy="12" r="1.6"/><circle cx="15.5" cy="13.5" r="1.6"/></symbol>
+  <symbol id="i-sake" viewBox="0 0 24 24"><path d="M9 2h4v3c3 2 4 5 4 9v7H5v-7c0-4 1-7 4-9z"/><path d="M5 14h12"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 22c4 0 7-3 7-7 0-5-4-7-5-12-3 2-5 5-5 8-1-1-2-2-2-4-2 2-2 4-2 6 0 5 3 9 7 9z"/></symbol>
+  <symbol id="i-tray" viewBox="0 0 24 24"><path d="M3 10h18l-2 9H5z"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></symbol>
+  <symbol id="i-mute" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="m17 9 5 6M22 9l-5 6"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 20l1.5-4A8 8 0 1 1 9 19.5z"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></symbol>
+  <symbol id="i-cake" viewBox="0 0 24 24"><path d="M4 21V12h16v9zM4 16c2 1.5 4 1.5 6 0s4-1.5 6 0 3 1.5 4 0"/><path d="M12 12V8M12 5.5v-.5"/></symbol>
+  <symbol id="i-cheers" viewBox="0 0 24 24"><path d="M5 3h6l-1 8a2 2 0 0 1-4 0zM13 3h6l-1 8a2 2 0 0 1-4 0zM8 13v8M16 13v8M5 21h6M13 21h6"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/></symbol>
+</svg>
+
+<!-- intro: a red noren curtain with the shop name parts as you "walk in" -->
+<div id="intro" aria-hidden="true">
+  <div class="glow"></div>
+  <div class="rod"></div>
+  <div class="noren">
+    <div class="panel"><div class="noren-art"><div class="kanji"><span>門</span><span>前</span></div><div class="word">MONZEN</div></div></div>
+    <div class="panel"><div class="noren-art"><div class="kanji"><span>門</span><span>前</span></div><div class="word">MONZEN</div></div></div>
+    <div class="panel"><div class="noren-art"><div class="kanji"><span>門</span><span>前</span></div><div class="word">MONZEN</div></div></div>
+  </div>
+  <div class="intro-tag">Izakaya &amp; Grill · いらっしゃいませ</div>
+</div>
+
+<div class="strip" id="strip" role="status"><span class="dot"></span><span id="stripTxt">Lunch 12–3pm · Dinner 5:30–10pm · Closed Tuesdays</span></div>
+
+<nav id="nav" aria-label="Main">
+  <div class="wrap nav-in">
+    <a class="logo" href="#top" aria-label="Monzen Izakaya and Grill, back to top">
+      <span class="hanko" aria-hidden="true">門</span>
+      <span class="logo-txt"><b>MONZEN</b><small>Izakaya &amp; Grill</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#menu">Menu</a><a href="#grill">The Grill</a><a href="#reserve">Reserve</a><a href="#events">Events</a><a href="#reviews">Reviews</a><a href="#visit">Visit</a>
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" id="trayBtn" type="button" aria-label="My table list, 0 dishes"><svg class="ico"><use href="#i-tray"/></svg><span class="count" id="trayCount" aria-hidden="true">0</span></button>
+      <button class="icon-btn" id="soundBtn" type="button" aria-pressed="true" aria-label="Sound on"><svg class="ico"><use href="#i-sound"/></svg></button>
+      <a class="btn btn-red nav-cta" href="#reserve">Book a table</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+<header class="hero" id="top">
+  <canvas id="embers" aria-hidden="true"></canvas>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Dairy Farm Mall · Bukit Timah</div>
+      <h1>Off the grill,<br>into good <em>company.</em></h1>
+      <p class="lead">Modern Japanese izakaya: sashimi, sushi, donburi and grilled plates to share, with a cold drink in hand. Drop by for lunch, or stay late for dinner.</p>
+      <div class="ctas">
+        <a class="btn btn-red" href="#reserve"><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg>Reserve a table</a>
+        <a class="btn btn-line" href="#menu"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>See the menu</a>
+      </div>
+      <div class="facts">
+        <div><svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg>Grill · sashimi · donburi</div>
+        <div><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg>Open 6 days, closed Tue</div>
+        <div><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>4 Dairy Farm Lane, #01-04</div>
+      </div>
+    </div>
+    <div class="lanterns" aria-hidden="true">
+      <div class="lantern l1"><div class="cord"></div><div class="chochin"><span>門前</span></div></div>
+      <div class="lantern l2"><div class="cord"></div><div class="chochin"><span>酒</span></div></div>
+      <div class="smoke" style="left:20%"></div><div class="smoke" style="left:46%;animation-delay:-2.3s"></div><div class="smoke" style="left:70%;animation-delay:-4.6s"></div>
+    </div>
+  </div>
+</header>
+
+<section id="highlights" aria-labelledby="hl-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="kicker"><i>名物</i>House favourites</div><h2 id="hl-h">What people order</h2></div>
+      <p>The three dishes named as menu highlights on Monzen's public restaurant listing. Tap one to find it on the menu.</p>
+    </div>
+    <div class="hl-grid">
+      <button class="hl reveal" type="button" data-go="grill"><span class="num" aria-hidden="true">01</span><span class="art"><svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg></span><h3>MB4/5 Wagyu Bone-in Ribeye</h3><p>Australian wagyu on the bone, off the grill and sliced to share.</p></button>
+      <button class="hl reveal" type="button" data-go="raw"><span class="num" aria-hidden="true">02</span><span class="art"><svg class="ico" aria-hidden="true"><use href="#i-fish"/></svg></span><h3>Hamachi Carpaccio</h3><p>Thin-sliced yellowtail, bright and fresh. The way to start the night.</p></button>
+      <button class="hl reveal" type="button" data-go="rice"><span class="num" aria-hidden="true">03</span><span class="art"><svg class="ico" aria-hidden="true"><use href="#i-bowl"/></svg></span><h3>Tonkatsu</h3><p>Golden, crunchy pork cutlet. The most-recommended dish by diners.</p><span class="tag">Diners' top pick</span></button>
+    </div>
+  </div>
+</section>
+
+<section id="menu" aria-labelledby="menu-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="kicker"><i>お品書き</i>Menu</div><h2 id="menu-h">Small plates, big table.</h2></div>
+      <p>Tap <b>+</b> on anything you fancy to add it to <b>My table</b>. We'll add your list to your booking so the kitchen knows what you're craving.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Menu categories" id="tabs"></div>
+    <div class="items" id="items" role="tabpanel" aria-labelledby="tabs"></div>
+    <div class="menu-note"><span class="demo-note">Sample menu &amp; prices for this demo</span><span>Dishes marked <span class="star">Highlight</span> are from the restaurant's public listing. The rest are placeholders to fill in with the real menu.</span></div>
+  </div>
+</section>
+
+<section id="grill" aria-labelledby="grill-h">
+  <div class="wrap story">
+    <div class="grill-card reveal" aria-hidden="true">
+      <div class="sign">焼き場</div>
+      <!-- top-down konro grill: clay box, coal bed, grate, skewers resting on the rims -->
+      <svg viewBox="0 0 400 400">
+        <defs>
+          <linearGradient id="clay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a5a3a"/><stop offset="1" stop-color="#4a2c1a"/></linearGradient>
+          <radialGradient id="bedGlow" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#ff9a3c" stop-opacity=".9"/><stop offset="1" stop-color="#c8322a" stop-opacity="0"/></radialGradient>
+          <linearGradient id="meat" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9a160"/><stop offset=".6" stop-color="#b5602a"/><stop offset="1" stop-color="#7a3414"/></linearGradient>
+          <clipPath id="inside"><rect x="72" y="132" width="256" height="156" rx="6"/></clipPath>
+        </defs>
+        <rect x="52" y="112" width="296" height="196" rx="18" fill="url(#clay)"/>
+        <rect x="52" y="112" width="296" height="196" rx="18" fill="none" stroke="#2b1a10" stroke-width="3"/>
+        <rect x="72" y="132" width="256" height="156" rx="6" fill="#140c08"/>
+        <g clip-path="url(#inside)">
+          <rect class="bed-glow" x="60" y="120" width="280" height="180" fill="url(#bedGlow)" opacity=".85"/>
+          <g id="coalBed"></g>
+          <g stroke="#1b120c" stroke-width="3" opacity=".9"><path d="M72 150H328M72 170H328M72 190H328M72 210H328M72 230H328M72 250H328M72 270H328"/></g>
+        </g>
+        <g id="skewerSet"></g>
+      </svg>
+      <div class="smoke" style="left:22%"></div><div class="smoke" style="left:44%;animation-delay:-2.3s"></div><div class="smoke" style="left:64%;animation-delay:-4.6s"></div>
+    </div>
+    <div class="reveal">
+      <div class="kicker"><i>門前</i>Our name &amp; the grill</div>
+      <h2 id="grill-h">“In front of the gate.”</h2>
+      <p class="body"><b>Monzen (門前)</b> means “before the gate”. In Japan, it's the street of small eateries outside a temple gate, where people stop to eat, drink and catch up. That's the feeling here: an easy, friendly stop for a good meal.</p>
+      <div class="steps">
+        <div class="step"><b>一</b><div><h3>Fire first</h3><p>Meat, seafood and vegetables cooked over high heat, so the outside chars and the inside stays juicy.</p></div></div>
+        <div class="step"><b>二</b><div><h3>Salt or sauce</h3><p>A pinch of salt to taste the produce, or a glossy tare glaze brushed on over the heat.</p></div></div>
+        <div class="step"><b>三</b><div><h3>Straight to the table</h3><p>Plates come out as they're ready. Order a few, share, then order a few more.</p></div></div>
+      </div>
+      <p class="body"><span class="demo-note">Sample story: to write with the owners</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="reserve" aria-labelledby="res-h">
+  <div class="wrap res-grid">
+    <div class="res-side reveal">
+      <div class="kicker"><i>予約</i>Reservations</div>
+      <h2 id="res-h" style="font-size:clamp(2rem,4.6vw,3.3rem)">Save us a seat.</h2>
+      <p style="margin-top:12px">Pick a date and time. Your booking goes straight to the restaurant on WhatsApp, and they'll reply to confirm.</p>
+      <ul>
+        <li><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg><span>Lunch 12:00–3:00pm · Dinner 5:30–10:00pm</span></li>
+        <li><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg><span>Closed on Tuesdays</span></li>
+        <li><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg><span>Big group or a party? Pick “Group / event” and tell us what you have in mind.</span></li>
+        <li><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg><span>Demo: not connected to the restaurant's WhatsApp yet.</span></li>
+      </ul>
+    </div>
+    <form class="card reveal" id="resForm" novalidate>
+      <div class="field"><label for="rDate">Date <span class="req" aria-hidden="true">*</span></label><input type="date" id="rDate" required aria-describedby="rDateErr"><div class="err" id="rDateErr" aria-live="polite"></div></div>
+      <div class="field"><label for="rTime">Time <span class="req" aria-hidden="true">*</span></label><select id="rTime" required aria-describedby="rTimeErr"><option value="">Choose a time</option></select><div class="err" id="rTimeErr" aria-live="polite"></div></div>
+      <div class="field"><span class="lbl" id="paxLbl">Guests</span><div class="pax" role="group" aria-labelledby="paxLbl"><button type="button" id="paxMinus" aria-label="One guest fewer">−</button><output id="pax" aria-live="polite">2</output><button type="button" id="paxPlus" aria-label="One guest more">+</button></div><div class="help" id="paxHelp">Up to 20 here. More? Choose “Group / event”.</div></div>
+      <div class="field"><label for="rOcc">Occasion</label><select id="rOcc"><option>Casual meal</option><option>Date night</option><option>Birthday</option><option>After-work drinks</option><option>Group / event</option></select></div>
+      <div class="field"><label for="rName">Name <span class="req" aria-hidden="true">*</span></label><input id="rName" autocomplete="name" required aria-describedby="rNameErr"><div class="err" id="rNameErr" aria-live="polite"></div></div>
+      <div class="field"><label for="rPhone">Mobile <span class="req" aria-hidden="true">*</span></label><input id="rPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="8123 4567" required aria-describedby="rPhoneErr"><div class="err" id="rPhoneErr" aria-live="polite"></div></div>
+      <div class="field full"><label for="rNote">Anything we should know?</label><textarea id="rNote" placeholder="Allergies, high chair, counter seats…"></textarea></div>
+      <div class="tray-in" id="trayIn">Your <b>My table</b> list is empty. Add dishes from the menu and we'll pass them on with your booking.</div>
+      <div class="form-foot"><button class="btn btn-red" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg>Book via WhatsApp</button><span class="help">Demo only: nothing is sent.</span></div>
+    </form>
+  </div>
+</section>
+
+<section id="events" aria-labelledby="ev-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="kicker"><i>宴会</i>Groups &amp; private dining</div><h2 id="ev-h">Bring the whole table.</h2></div>
+      <p>Izakayas are made for groups. Tell us the occasion and the headcount, and we'll suggest a set-up and menu.</p>
+    </div>
+    <div class="ev-grid">
+      <div class="ev reveal"><span class="art"><svg class="ico" aria-hidden="true"><use href="#i-cheers"/></svg></span><h3>After-work drinks</h3><p>Grill plates and sharing platters for the team. Kanpai after a long week.</p><button type="button" data-occ="After-work drinks">Enquire <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+      <div class="ev reveal"><span class="art"><svg class="ico" aria-hidden="true"><use href="#i-cake"/></svg></span><h3>Birthdays</h3><p>Celebrate with family and friends. Let us know and we'll help make it special.</p><button type="button" data-occ="Birthday">Enquire <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+      <div class="ev reveal"><span class="art"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg></span><h3>Group &amp; corporate</h3><p>Larger groups, set menus or a full booking. Ask us about what's possible.</p><button type="button" data-occ="Group / event">Enquire <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews" aria-labelledby="rv-h" style="background:var(--sumi-2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="kicker"><i>声</i>Reviews</div><h2 id="rv-h">How was your meal?</h2></div>
+      <p>Read what diners say on Google, or leave a review of your own. It only takes a minute and it really helps.</p>
+    </div>
+    <div class="rv-grid">
+      <div class="rv-card reveal">
+        <h3>Our Google reviews</h3>
+        <p>Real reviews from real diners, straight from Google Maps.</p>
+        <div class="ctas" style="margin-top:4px">
+          <a class="btn btn-red" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Monzen+Izakaya+and+Grill+Dairy+Farm+Mall+Singapore">Read our reviews <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-line" target="_blank" rel="noopener" href="https://www.chope.co/singapore-restaurants/restaurant/monzen-izakaya-and-grill">Also on Chope</a>
+        </div>
+      </div>
+      <form class="rv-card reveal" id="reviewForm" novalidate>
+        <h3>Leave a review</h3>
+        <fieldset style="border:0"><legend class="lbl" style="margin-bottom:6px">Your rating</legend>
+          <div class="stars" id="stars">
+            <input type="radio" name="st" id="s5" value="5"><label for="s5" aria-label="5 stars"><svg class="ico"><use href="#i-star"/></svg></label>
+            <input type="radio" name="st" id="s4" value="4"><label for="s4" aria-label="4 stars"><svg class="ico"><use href="#i-star"/></svg></label>
+            <input type="radio" name="st" id="s3" value="3"><label for="s3" aria-label="3 stars"><svg class="ico"><use href="#i-star"/></svg></label>
+            <input type="radio" name="st" id="s2" value="2"><label for="s2" aria-label="2 stars"><svg class="ico"><use href="#i-star"/></svg></label>
+            <input type="radio" name="st" id="s1" value="1"><label for="s1" aria-label="1 star"><svg class="ico"><use href="#i-star"/></svg></label>
+          </div>
+        </fieldset>
+        <div class="field"><label for="rvText">Your review</label><textarea id="rvText" placeholder="What did you order? How was it?" aria-describedby="rvErr"></textarea><div class="err" id="rvErr" aria-live="polite"></div></div>
+        <button class="btn btn-red" type="submit" style="align-self:flex-start">Post my review</button>
+        <p class="help" id="reviewNote">We'll copy your review so you can paste it on Google in one step.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="visit" aria-labelledby="vi-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="kicker"><i>場所</i>Visit</div><h2 id="vi-h">Find the red lanterns.</h2></div>
+      <p>Inside Dairy Farm Mall, on level 1.</p>
+    </div>
+    <div class="visit">
+      <div class="info-list reveal">
+        <div class="info-row"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><div><h3>Address</h3><p>4 Dairy Farm Lane, #01-04 Dairy Farm Mall<br>Singapore 677622</p></div></div>
+        <div class="info-row"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg><div><h3>Opening hours</h3><div class="hours" id="hours"></div></div></div>
+        <div class="info-row"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><div><h3>Contact</h3><p>+65 0000 0000 <span class="demo-note" style="margin-left:6px">placeholder</span></p></div></div>
+        <div class="ctas" style="margin-top:0"><a class="btn btn-line" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Monzen+Izakaya+and+Grill+4+Dairy+Farm+Lane+Singapore+677622"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Get directions</a><a class="btn btn-red" href="#reserve">Book a table</a></div>
+        <p class="help">Address and hours from Monzen's public Chope listing. Please confirm before launch.</p>
+      </div>
+      <div class="map reveal"><iframe title="Map of Dairy Farm Mall" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Dairy+Farm+Mall,+4+Dairy+Farm+Lane,+Singapore+677622&amp;output=embed"></iframe></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="logo" href="#top" aria-label="Back to top"><span class="hanko" aria-hidden="true">門</span><span class="logo-txt"><b>MONZEN</b><small>Izakaya &amp; Grill</small></span></a>
+    <div>© Monzen Izakaya &amp; Grill · Dairy Farm Mall, Singapore<br><span style="font-size:.78rem">Website concept demo: sample menu, prices and story copy</span></div>
+  </div>
+</footer>
+
+<nav class="jumpbar" aria-label="Quick jump">
+  <a href="#menu"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Menu</a>
+  <a href="#grill"><svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg>Grill</a>
+  <a class="res" href="#reserve"><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg>Reserve</a>
+  <a href="#events"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Events</a>
+  <a href="#visit"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Visit</a>
+</nav>
+
+<!-- My table drawer -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-labelledby="drawerH" aria-hidden="true">
+  <div class="drawer-head"><h3 id="drawerH">My table</h3><button class="icon-btn" id="drawerClose" type="button" aria-label="Close my table list"><svg class="ico"><use href="#i-x"/></svg></button></div>
+  <p class="help">A wish list of dishes to try. It's added to your booking message. You'll still order at the table.</p>
+  <ul class="tray-list" id="trayList"></ul>
+  <div class="tray-total" id="trayTotal" hidden>
+    <div class="tt-row"><span>Estimated total</span><b id="trayTotalAmt">$0</b></div>
+    <small>Sample prices for this demo, before service charge and GST. You pay at the restaurant.</small>
+    <button type="button" class="clear" id="trayClear">Clear list</button>
+  </div>
+  <a class="btn btn-red" href="#reserve" id="drawerBook" style="margin-top:14px">Book with this list</a>
+</aside>
+
+<!-- booking ticket -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="tkH">
+  <div class="ticket">
+    <div class="stamp" aria-hidden="true">門</div>
+    <h3 id="tkH">Your table request</h3>
+    <p class="sub">Here's the WhatsApp message that would go to Monzen.</p>
+    <dl id="tkDl"></dl>
+    <pre id="tkMsg"></pre>
+    <p class="demo"><b>Demo only:</b> this site isn't connected to the restaurant's WhatsApp yet, so nothing was sent. Once it's live, this button opens WhatsApp with the message ready to send.</p>
+    <div class="acts"><button class="btn btn-red" type="button" id="tkSend"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg>Send on WhatsApp</button><button class="btn btn-line" type="button" id="tkClose">Edit booking</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const toast=(m)=>{const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),3800)};
+
+// ---- opening hours (from the public Chope listing): Tue closed, other days 12–3pm and 5:30–10pm
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const SLOTS=[[12*60,15*60],[17*60+30,22*60]];
+const isClosedDay=d=>d===2;
+function sgNow(){ // day + minutes in Singapore time, whatever the visitor's clock is set to
+  const p=Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Singapore',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+  return {day:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(p.weekday),min:+p.hour*60+ +p.minute};
+}
+const fmt=m=>{const h=Math.floor(m/60),mm=m%60,ap=h>=12?'pm':'am',hh=h%12||12;return mm?`${hh}:${String(mm).padStart(2,'0')}${ap}`:`${hh}${ap}`};
+(function hours(){
+  const {day,min}=sgNow(), el=$('#hours');
+  [1,2,3,4,5,6,0].forEach(d=>{
+    const a=document.createElement('span'),b=document.createElement('span');
+    a.textContent=DAYS[d];b.textContent=isClosedDay(d)?'Closed':'12pm–3pm, 5:30pm–10pm';
+    if(d===day){a.className=b.className='today';a.textContent+=' (today)'}
+    el.append(a,b);
+  });
+  const strip=$('#strip'),txt=$('#stripTxt');
+  const open=!isClosedDay(day)&&SLOTS.find(([s,e])=>min>=s&&min<e);
+  if(open){strip.classList.add('open');txt.innerHTML=`<b>Open now</b> · until ${fmt(open[1])} today`}
+  else{
+    let next=null;
+    for(let k=0;k<8&&!next;k++){const d=(day+k)%7;if(isClosedDay(d))continue;const s=SLOTS.find(([s])=>k>0||s>min);if(s)next=(k===0?'today':k===1?'tomorrow':DAYS[d])+' at '+fmt(s[0])}
+    txt.innerHTML=`<b>Closed now</b> · opens ${next}`;
+  }
+})();
+
+// ---- menu (sample unless marked as a listing highlight)
+const CATS=[
+ {id:'grill',name:'From the grill',ico:'i-skewer'},
+ {id:'raw',name:'Sashimi & sushi',ico:'i-fish'},
+ {id:'rice',name:'Donburi & mains',ico:'i-bowl'},
+ {id:'small',name:'Small plates',ico:'i-plate'},
+ {id:'drinks',name:'Drinks',ico:'i-sake'}];
+const MENU={
+ grill:[
+  ['MB4/5 Wagyu Bone-in Ribeye','和牛','Australian wagyu on the bone, sliced to share',88,1],
+  ['Negima','ねぎま','Chicken thigh and leek skewers, salt or tare',8],
+  ['Buta bara','豚バラ','Pork belly skewers with a crisp, smoky edge',8],
+  ['Gyutan','牛タン','Thin-sliced beef tongue, lemon and pepper',16],
+  ['Salmon harasu','ハラス','Fatty salmon belly, grilled until it glistens',14],
+  ['Shishito','ししとう','Blistered green peppers, sea salt',6]],
+ raw:[
+  ['Hamachi Carpaccio','カルパッチョ','Thin yellowtail with citrus and olive oil',22,1],
+  ['Salmon sashimi','刺身','Five thick slices, wasabi and soy',18],
+  ['Aburi salmon roll','炙り','Torched salmon on a sushi roll, mentai mayo',19],
+  ['Sashimi moriawase','盛り合わせ','Chef\'s pick of the day\'s fish, for two',48]],
+ rice:[
+  ['Tonkatsu','とんかつ','Crunchy panko pork cutlet, cabbage, rice and miso soup',22,1],
+  ['Wagyu don','和牛丼','Seared wagyu slices over warm rice, onsen egg',28],
+  ['Bara chirashi don','ちらし','Cubed sashimi over sushi rice',24],
+  ['Saba shioyaki set','鯖','Salt-grilled mackerel with rice and sides',19]],
+ small:[
+  ['Edamame','枝豆','Warm, salted soybeans',6],
+  ['Chicken karaage','唐揚げ','Juicy fried chicken, lemon and Japanese mayo',12],
+  ['Agedashi tofu','揚げ出し','Silky tofu in light dashi broth',10],
+  ['Kaki fry','カキフライ','Panko-fried oysters, tartare sauce',14]],
+ drinks:[
+  ['House sake','日本酒','Warm or cold, by the tokkuri',18],
+  ['Japanese highball','ハイボール','Whisky and soda, tall and fizzy',14],
+  ['Draft beer','生ビール','Ice-cold pint',12],
+  ['Yuzu soda','柚子','Citrus fizz, no alcohol',7]]};
+const tray=new Map();
+let curCat='grill';
+function renderTabs(){
+  $('#tabs').innerHTML=CATS.map(c=>`<button class="tab" role="tab" id="tab-${c.id}" aria-selected="${c.id===curCat}" data-cat="${c.id}" tabindex="${c.id===curCat?0:-1}"><svg class="ico" aria-hidden="true"><use href="#${c.ico}"/></svg>${c.name}</button>`).join('');
+}
+function renderItems(){
+  const c=CATS.find(c=>c.id===curCat);
+  $('#items').setAttribute('aria-labelledby','tab-'+c.id);
+  $('#items').innerHTML=MENU[curCat].map(([n,jp,d,p,hl],i)=>{
+    const q=tray.get(n)||0;
+    return `<article class="item" style="animation-delay:${i*40}ms"><div class="pic" aria-hidden="true"><svg class="ico"><use href="#${c.ico}"/></svg></div><div class="info"><h3>${n}<span class="jp" lang="ja">${jp}</span></h3><p>${d}</p><div class="row"><span class="price">$${p}</span>${hl?'<span class="star">Highlight</span>':''}${stepper(n,q)}</div></div></article>`;
+  }).join('');
+}
+function pick(cat,focus){curCat=cat;renderTabs();renderItems();if(focus)$('#tab-'+cat).focus();sfx.tick(CATS.findIndex(c=>c.id===cat))}
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(b)pick(b.dataset.cat)});
+$('#tabs').addEventListener('keydown',e=>{ // arrow keys move between tabs
+  const i=CATS.findIndex(c=>c.id===curCat),d={ArrowRight:1,ArrowLeft:-1}[e.key];
+  if(d){e.preventDefault();pick(CATS[(i+d+CATS.length)%CATS.length].id,true)}
+});
+$$('.hl').forEach(b=>b.onclick=()=>{pick(b.dataset.go);$('#menu').scrollIntoView({behavior:reduce?'auto':'smooth'})});
+renderTabs();renderItems();
+
+// ---- my table cart (dish name -> quantity); prices are the sample menu prices
+const PRICE=Object.fromEntries(Object.values(MENU).flat().map(([n,,,p])=>[n,p]));
+function stepper(n,q){
+  if(!q)return `<button class="add" type="button" data-inc="${n}" aria-label="Add ${n} to my table"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></button>`;
+  return `<div class="qty" role="group" aria-label="${n} quantity"><button type="button" data-dec="${n}" aria-label="One fewer ${n}">−</button><output aria-live="polite">${q}</output><button type="button" data-inc="${n}" aria-label="One more ${n}">+</button></div>`;
+}
+const cartLines=()=>[...tray].map(([k,q])=>`${q}× ${k}`);
+function updateTray(){
+  const n=[...tray.values()].reduce((a,b)=>a+b,0),total=[...tray].reduce((a,[k,q])=>a+PRICE[k]*q,0),c=$('#trayCount');
+  c.textContent=n;c.classList.remove('bump');void c.offsetWidth;c.classList.add('bump');
+  $('#trayBtn').setAttribute('aria-label',`My table list, ${n} item${n===1?'':'s'}`);
+  $('#trayList').innerHTML=n?[...tray].map(([k,q])=>`<li><div class="li-info"><b>${k}</b><small>$${PRICE[k]} each</small></div>${stepper(k,q)}<span class="line-total">$${PRICE[k]*q}</span></li>`).join(''):'<li class="empty" style="display:block;border:0;background:none">Nothing yet. Tap + on the menu to add dishes.</li>';
+  $('#trayTotal').hidden=!n;
+  $('#trayTotalAmt').textContent='$'+total;
+  $('#trayIn').innerHTML=n?`<b>We'd love to try:</b> ${cartLines().join(', ')} <span style="white-space:nowrap">(est. $${total})</span>`:'Your <b>My table</b> list is empty. Add dishes from the menu and we\'ll pass them on with your booking.';
+}
+function changeQty(n,d,btn){
+  const q=Math.max(0,Math.min(20,(tray.get(n)||0)+d));
+  if(q)tray.set(n,q);else tray.delete(n);
+  if(d>0){flyFrom(btn);sfx.shwoop()}else sfx.tick(q);
+  renderItems();updateTray();
+}
+// after a re-render, keep keyboard focus on the same control (or its replacement)
+function refocus(scope,n,kind){
+  const esc=CSS.escape(n);
+  ($(`${scope} [data-${kind}="${esc}"]`)||$(`${scope} [data-inc="${esc}"]`))?.focus();
+}
+function flyFrom(btn){ // a little ember flies from the button to the table icon
+  if(reduce)return;
+  const a=btn.getBoundingClientRect(),b=$('#trayBtn').getBoundingClientRect(),f=document.createElement('div');
+  f.className='fly';f.style.left=(a.left+a.width/2-8)+'px';f.style.top=(a.top+a.height/2-8)+'px';document.body.appendChild(f);
+  requestAnimationFrame(()=>{f.style.transform=`translate(${b.left+b.width/2-a.left-a.width/2}px,${b.top+b.height/2-a.top-a.height/2}px) scale(.6)`;f.style.opacity='.4'});
+  setTimeout(()=>f.remove(),600);
+}
+['#items','#trayList'].forEach(scope=>$(scope).addEventListener('click',e=>{
+  const b=e.target.closest('[data-inc],[data-dec]');if(!b)return;
+  const kind=b.dataset.inc!==undefined?'inc':'dec',n=b.dataset[kind];
+  changeQty(n,kind==='inc'?1:-1,b);refocus(scope,n,kind);
+}));
+$('#trayClear').onclick=()=>{tray.clear();renderItems();updateTray();sfx.tick(0);$('#drawerClose').focus()};
+let lastFocus=null;
+const drawer=(show)=>{
+  $('#drawer').classList.toggle('show',show);$('#scrim').classList.toggle('show',show);$('#drawer').setAttribute('aria-hidden',String(!show));
+  if(show){lastFocus=document.activeElement;$('#drawerClose').focus()}else lastFocus?.focus();
+};
+$('#trayBtn').onclick=()=>drawer(true);
+$('#drawerClose').onclick=$('#scrim').onclick=()=>drawer(false);
+$('#drawerBook').onclick=()=>drawer(false);
+updateTray();
+
+// ---- reservation
+const rDate=$('#rDate'),rTime=$('#rTime');
+const ymd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+rDate.min=ymd(new Date());
+{const max=new Date();max.setDate(max.getDate()+60);rDate.max=ymd(max)}
+function fillTimes(){
+  const keep=rTime.value;rTime.innerHTML='<option value="">Choose a time</option>';
+  const lunch=[],dinner=[];
+  for(let m=12*60;m<=14*60+30;m+=30)lunch.push(m); // last lunch seating 2:30pm
+  for(let m=17*60+30;m<=21*60;m+=30)dinner.push(m); // last dinner seating 9pm
+  const {min}=sgNow(),today=rDate.value===ymd(new Date());
+  [['Lunch',lunch],['Dinner',dinner]].forEach(([lab,arr])=>{
+    const g=document.createElement('optgroup');g.label=lab;
+    arr.forEach(m=>{const o=new Option(fmt(m),fmt(m));if(today&&m<=min+30)o.disabled=true;g.append(o)});
+    rTime.append(g);
+  });
+  if([...rTime.options].some(o=>o.value===keep&&!o.disabled))rTime.value=keep;
+}
+fillTimes();rDate.onchange=()=>{fillTimes();check(rDate)};
+let pax=2;const setPax=v=>{pax=Math.max(1,Math.min(20,v));$('#pax').value=pax;$('#pax').textContent=pax};
+$('#paxMinus').onclick=()=>{setPax(pax-1);sfx.tick(pax%5)};
+$('#paxPlus').onclick=()=>{setPax(pax+1);sfx.tick(pax%5);if(pax===20)toast('For more than 20, choose “Group / event” and tell us in the notes.')};
+function setErr(el,msg){el.setAttribute('aria-invalid',msg?'true':'false');$('#'+el.getAttribute('aria-describedby')).textContent=msg||'';return !msg}
+function check(el){
+  const v=el.value.trim();
+  if(el===rDate){
+    if(!v)return setErr(el,'Please choose a date.');
+    const d=new Date(v+'T12:00');
+    if(v<rDate.min)return setErr(el,'That date has passed. Please pick another.');
+    if(v>rDate.max)return setErr(el,'We take bookings up to 60 days ahead.');
+    if(isClosedDay(d.getDay()))return setErr(el,'We\'re closed on Tuesdays. Please pick another day.');
+    return setErr(el,'');
+  }
+  if(el===rTime)return setErr(el,v?'':'Please choose a time.');
+  if(el.id==='rName')return setErr(el,v.length>=2?'':'Please tell us your name.');
+  if(el.id==='rPhone')return setErr(el,/^(\+?65)?[689]\d{7}$/.test(v.replace(/[\s-]/g,''))?'':'Please enter an 8-digit Singapore mobile, e.g. 8123 4567.');
+}
+['#rName','#rPhone','#rTime'].forEach(s=>$(s).addEventListener('blur',e=>check(e.target)));
+let waMsg='';
+$('#resForm').onsubmit=e=>{
+  e.preventDefault();
+  const fields=[rDate,rTime,$('#rName'),$('#rPhone')];
+  const bad=fields.filter(f=>!check(f));
+  if(bad.length){bad[0].focus();sfx.tick(0);return}
+  const d=new Date(rDate.value+'T12:00'),dateTxt=d.toLocaleDateString('en-SG',{weekday:'short',day:'numeric',month:'short'});
+  const rows=[['Date',dateTxt],['Time',rTime.value],['Guests',pax],['Occasion',$('#rOcc').value],['Name',$('#rName').value.trim()]];
+  $('#tkDl').innerHTML='';rows.forEach(([k,v])=>{const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=k;dd.textContent=v;$('#tkDl').append(dt,dd)});
+  const note=$('#rNote').value.trim(),list=cartLines();
+  waMsg=`Hi Monzen! I'd like to book a table.\n\n${dateTxt}, ${rTime.value}\n${pax} guest${pax>1?'s':''} · ${$('#rOcc').value}\nName: ${$('#rName').value.trim()}\nMobile: ${$('#rPhone').value.trim()}`+(note?`\nNote: ${note}`:'')+(list.length?`\n\nWe'd love to try: ${list.join(', ')}`:'');
+  $('#tkMsg').textContent=waMsg;
+  lastFocus=document.activeElement;$('#modal').classList.add('show');$('#tkSend').focus();sfx.furin();
+};
+const closeModal=()=>{$('#modal').classList.remove('show');lastFocus?.focus()};
+$('#tkClose').onclick=closeModal;
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+$('#tkSend').onclick=()=>toast('Demo only: once connected, this opens WhatsApp to Monzen with the message ready.');
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape')return;
+  if($('#modal').classList.contains('show'))closeModal();
+  else if($('#drawer').classList.contains('show'))drawer(false);
+});
+$$('.ev button').forEach(b=>b.onclick=()=>{$('#rOcc').value=b.dataset.occ;$('#reserve').scrollIntoView({behavior:reduce?'auto':'smooth'});setTimeout(()=>rDate.focus({preventScroll:true}),reduce?0:600)});
+
+// ---- reviews: copy the review, then open Google so it can be posted there
+const GMAPS='https://www.google.com/maps/search/?api=1&query=Monzen+Izakaya+and+Grill+Dairy+Farm+Mall+Singapore';
+$('#stars').onchange=e=>sfx.tick(+e.target.value);
+$('#reviewForm').onsubmit=async e=>{
+  e.preventDefault();
+  const t=$('#rvText'),st=$('input[name=st]:checked');
+  if(!t.value.trim()){t.setAttribute('aria-invalid','true');$('#rvErr').textContent='Please write a few words about your meal.';t.focus();return}
+  t.setAttribute('aria-invalid','false');$('#rvErr').textContent='';
+  const text=(st?'★'.repeat(+st.value)+' ':'')+t.value.trim();
+  let copied=false;try{await navigator.clipboard.writeText(text);copied=true}catch{}
+  $('#reviewNote').textContent=copied?'Thank you! Your review is copied. Paste it on our Google page that just opened.':'Thank you! Please paste your review on our Google page that just opened.';
+  sfx.furin();window.open(GMAPS,'_blank','noopener');
+};
+
+// ---- scroll reveal + active nav
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});
+$$('.reveal').forEach(el=>io.observe(el));
+const navIo=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting)$$('.nav-links a,.jumpbar a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+x.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
+$$('main section').forEach(s=>navIo.observe(s));
+
+// ---- grill coals (built here so the markup stays short)
+{ // coal lumps in a loose grid, each glowing on its own beat; then four skewers resting across the rims
+  let c='';
+  for(let r=0;r<6;r++)for(let k=0;k<9;k++){const x=74+k*29+(r%2)*10+(k*7%5),y=134+r*26+(k*3%4);c+=`<rect class="coal" x="${x}" y="${y}" width="${24+(k+r)%3*3}" height="${19+(k*r)%3*2}" rx="7" style="animation-delay:${-((r*9+k)*0.53%2.8).toFixed(2)}s"/>`}
+  $('#coalBed').innerHTML=c;
+  $('#skewerSet').innerHTML=[112,170,228,286].map((x,i)=>`<g transform="rotate(${[-3,2,-1,3][i]} ${x} 210)"><rect x="${x-3}" y="92" width="6" height="236" rx="3" fill="#d9b57a"/><rect x="${x-5}" y="318" width="10" height="22" rx="3" fill="#a7824e"/>`+
+    [150,186,222,258].map(y=>`<rect x="${x-15}" y="${y}" width="30" height="28" rx="9" fill="url(#meat)"/><path d="M${x-10} ${y+9}l20-4M${x-10} ${y+19}l20-4" stroke="#4a1d0a" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>`).join('')+'</g>').join('');
+}
+
+// ---- hero embers: small glowing sparks rising, paused when the hero is off screen
+(function(){
+  const cv=$('#embers'),ctx=cv.getContext('2d');let w,h,ps=[],run=true,raf;
+  const size=()=>{w=cv.width=cv.offsetWidth*devicePixelRatio;h=cv.height=cv.offsetHeight*devicePixelRatio};
+  size();addEventListener('resize',size);
+  const spawn=()=>({x:Math.random()*w,y:h+10,r:(Math.random()*1.8+.6)*devicePixelRatio,vy:-(Math.random()*.6+.35)*devicePixelRatio,vx:(Math.random()-.5)*.3,life:1,drift:Math.random()*6});
+  for(let i=0;i<40;i++){const p=spawn();p.y=Math.random()*h;ps.push(p)}
+  function frame(t){
+    ctx.clearRect(0,0,w,h);
+    ps.forEach(p=>{p.y+=p.vy;p.x+=p.vx+Math.sin(t/900+p.drift)*.25;p.life=Math.min(1,p.y/h+.15);
+      ctx.beginPath();ctx.fillStyle=`rgba(255,${140+Math.random()*40|0},60,${p.life*.85})`;ctx.shadowColor='#ef8a3c';ctx.shadowBlur=8*devicePixelRatio;ctx.arc(p.x,p.y,p.r,0,7);ctx.fill();
+      if(p.y<h*.05)Object.assign(p,spawn());});
+    if(run)raf=requestAnimationFrame(frame);
+  }
+  if(reduce)return;
+  new IntersectionObserver(([e])=>{run=e.isIntersecting;cancelAnimationFrame(raf);if(run)raf=requestAnimationFrame(frame)}).observe($('.hero'));
+})();
+
+// ---- sound: tiny sounds made in the browser (no audio files); on/off is remembered
+const sfx=(()=>{
+  let ac=null,on=true;
+  try{on=localStorage.getItem('monzen-sound')!=='off'}catch{}
+  const btn=$('#soundBtn');
+  const show=()=>{btn.innerHTML=`<svg class="ico" aria-hidden="true"><use href="#${on?'i-sound':'i-mute'}"/></svg>`;btn.setAttribute('aria-pressed',String(on));btn.setAttribute('aria-label',on?'Sound on':'Sound off')};
+  btn.onclick=()=>{on=!on;try{localStorage.setItem('monzen-sound',on?'on':'off')}catch{};show();if(on)furin();else window.introMusic?.pause()};
+  show();
+  const ctx=()=>(ac=ac||new (window.AudioContext||window.webkitAudioContext)());
+  const tone=(f,dur,type='triangle',vol=.1,delay=0)=>{
+    if(!on)return;const a=ctx(),t=a.currentTime+delay,o=a.createOscillator(),g=a.createGain();
+    o.type=type;o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.01);g.gain.exponentialRampToValueAtTime(.001,t+dur);
+    o.connect(g).connect(a.destination);o.start(t);o.stop(t+dur+.02);
+  };
+  // shwoop: a burst of air swept from low to high (the fly-to-table sound)
+  const shwoop=()=>{
+    if(!on)return;const a=ctx(),t=a.currentTime,len=.3,buf=a.createBuffer(1,a.sampleRate*len,a.sampleRate),d=buf.getChannelData(0);
+    for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+    const src=a.createBufferSource(),bp=a.createBiquadFilter(),g=a.createGain();
+    src.buffer=buf;bp.type='bandpass';bp.Q.value=1.4;bp.frequency.setValueAtTime(350,t);bp.frequency.exponentialRampToValueAtTime(3200,t+len);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.4,t+.08);g.gain.exponentialRampToValueAtTime(.001,t+len);
+    src.connect(bp).connect(g).connect(a.destination);src.start(t);
+  };
+  // furin: a Japanese glass wind chime, a few bright inharmonic partials with a long shimmer
+  const furin=()=>{
+    if(!on)return false;const a=ctx();if(a.state!=='running')return false;
+    [[0,1,2350],[.42,.7,2480],[.95,.45,2300]].forEach(([at,vol,base])=>{
+      [[1,1,2.2],[2.32,.35,1.4],[4.25,.16,.8],[6.8,.07,.5]].forEach(([r,v,dec])=>{
+        const t=a.currentTime+at,o=a.createOscillator(),g=a.createGain(),lfo=a.createOscillator(),lg=a.createGain();
+        o.frequency.value=base*r;lfo.frequency.value=5.5;lg.gain.value=base*r*.002;lfo.connect(lg).connect(o.frequency); // slight wobble like swinging glass
+        g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.05*v*vol,t+.003);g.gain.exponentialRampToValueAtTime(.0001,t+dec);
+        o.connect(g).connect(a.destination);o.start(t);lfo.start(t);o.stop(t+dec+.05);lfo.stop(t+dec+.05);
+      });
+    });
+    return true;
+  };
+  const tick=n=>tone(420+n*90,.08,'triangle',.08); // soft wooden tap
+  return {shwoop,furin,tick,isOn:()=>on,unlock:()=>ac?ac.resume():ctx().resume()};
+})();
+
+// ---- intro: curtain hangs, name inks in, then the noren parts with a wind chime
+(function(){
+  const intro=$('#intro');
+  const finish=()=>{intro.classList.add('done');document.body.classList.remove('intro-on');document.body.classList.add('lit');setTimeout(()=>intro.remove(),900)};
+  if(reduce){finish();return}
+  // intro music: plays assets/intro.mp3 if it's there, otherwise the synthesized wind chime is used
+  const music=window.introMusic=new Audio('assets/intro.mp3');
+  let hasTrack=null; // null = still checking
+  music.addEventListener('canplay',()=>hasTrack=true,{once:true});
+  music.addEventListener('error',()=>hasTrack=false,{once:true});
+  const fadeOut=()=>{const iv=setInterval(()=>{music.volume=Math.max(0,music.volume-.05);if(music.volume<=0){clearInterval(iv);music.pause()}},75)};
+  const playTrack=()=>{if(!sfx.isOn()||hasTrack===false)return Promise.resolve(false);music.volume=.7;return music.play().then(()=>{setTimeout(fadeOut,7000);return true},()=>false)};
+  // browsers only allow sound after the visitor interacts, so if blocked, start it on their first tap or key press
+  const waitForTap=fn=>{
+    const go=()=>{off();Promise.resolve(sfx.unlock()).then(fn)};
+    const off=()=>['pointerdown','keydown'].forEach(t=>removeEventListener(t,go,true));
+    ['pointerdown','keydown'].forEach(t=>addEventListener(t,go,true));setTimeout(off,6000);
+  };
+  playTrack().then(ok=>{if(!ok&&hasTrack!==false)waitForTap(playTrack)});
+  setTimeout(()=>{
+    intro.classList.add('open');
+    if(hasTrack)return; // the track carries the moment; no chime on top
+    if(!sfx.furin())waitForTap(()=>{if(!intro.classList.contains('done')&&!hasTrack)sfx.furin()});
+  },2000);
+  setTimeout(finish,2900);
+})();
+</script>
+</body>
+</html>
